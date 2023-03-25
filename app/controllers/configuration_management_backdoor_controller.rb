@@ -14,22 +14,14 @@ class ConfigurationManagementBackdoorController < ApplicationController
   end
 
   def invoke_ruby
-    begin
-      code = request.body.read
-      render json: {result: eval(code)}
-    rescue Exception => e
-      render json: {error: e.to_s}, status: 422
-    end
+    code = request.body.read
+    render json: {result: eval(code)}
   end
 
   def invoke_sql
-    begin
-      code = request.body.read
-      res = ActiveRecord::Base.connection.execute code
-      render json: {result: res}
-    rescue Exception => e
-      render json: {error: e.to_s}, status: 422
-    end
+    code = request.body.read
+    res = ActiveRecord::Base.connection.execute code
+    render json: {result: res}
   end
 
   def invoke
